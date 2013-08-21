@@ -21,12 +21,18 @@ then
 fi
 
 REGISTER_CMD="le register"
+LE_LOCATION="https://raw.github.com/logentries/le/master/le"
+CURL="/usr/bin/curl"
+CURL_TAGS="-O"
 
 follow_folder() {
 	for filepath in $1*;do echo le follow $filepath ;done; 
 }
 
+
 printf "Welcome to the Logentries Install Script for "; hostname;
+$CURL $CURL_TAGS $LE_LOCATION
+chmod a+x le
 printf "We will now register your machine.\n"
 printf "\n"
 $REGISTER_CMD

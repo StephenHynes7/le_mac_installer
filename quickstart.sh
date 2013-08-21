@@ -24,6 +24,7 @@ REGISTER_CMD="le register"
 LE_LOCATION="https://raw.github.com/logentries/le/master/le"
 CURL="/usr/bin/curl"
 CURL_TAGS="-O"
+LOGGER_CMD="logger -t LogentriesTest Test Message Sent By LogentriesAgent"
 
 follow_folder() {
 	for filepath in $1*;do echo le follow $filepath ;done; 
@@ -40,47 +41,40 @@ printf "\n"
 printf "This script will guide you through following your first set of logs. \n"
 printf "I have automatically followed these files of interest for you.\n"
 
-if [ -f /var/log/auth.log ];  then 
-printf "/var/log/auth.log - Authenication logs.\n"
-le follow /var/log/auth.log
+
+if [ -f /var/log/system.log ];  then 
+printf "/var/log/system.log - System logs.\n"
+le follow /var/log/system.log
 fi
 printf "\n"
-if [ -f /var/log/cron.log ]; then
-printf "/var/log/cron.log - Crond logs (cron job).\n"
-le follow /var/log/cron.log
+if [ -f /var/log/install.log ]; then
+printf "/var/log/install.log - Install logs.\n"
+le follow /var/log/install.log
 fi
 printf "\n"
-if [ -f /var/log/mysqld.log ]; then
-printf "/var/log/mysqld.log - MySQL database server log file.\n"
-le follow /var/log/mysqld.log
+if [ -f /var/log/fsck_hfs.log ]; then
+printf "/var/log/fsck_hfs.log - FSCK log file.\n"
+le follow /var/log/fsck_hfs.log
 fi
 printf "\n"
-if [ -f /var/log/nginx/error.log ]; then
-printf "/var/log/nginx/error.log - Nginx error log.\n"
-le follow /var/log/nginx/error.log
+if [ -f /var/log/opendirectoryd.log ]; then
+printf "/var/log/opendirectoryd.log - Open Directoryd log.\n"
+le follow /var/log/opendirectoryd.log
 fi
 printf "\n"
-if [ -f /var/log/nginx/access.log ]; then
-printf "/var/log/nginx/access.log - Nginx access log.\n"
-le follow /var/log/nginx/access.log
+if [ -f /var/log/appfirewall.log ]; then
+printf "/var/log/appfirewall.log - App firewall log.\n"
+le follow /var/log/appfirewall.log
 fi
 printf "\n"
 
-printf "Now let's add a log of your choice. Please choose one of the following. \n"
-printf "Press 1 to follow a single log file.\n"
-printf "Press 2 to follow all log files in a folder.\n"
-read RESP
-echo $RESP
-if [ "$RESP" = "1" ]; then
-	printf "Enter the location of your log file you wish to follow.\n"
-	read LOCFile
-	le follow $LOCFILE
-else
-	printf "Enter the location of your folder you wish to follow.\n"
-	read LOCFOLDER
-	printf "Attempting to follow all files located in " $LOCFOLDER
-	follow_folder $LOCFOLDER
-fi
+logger -p "Logentries Agent Test Event 1" >> /var/log/system.log
+logger -p "Logentries Agent Test Event 3" >> /var/log/system.log
+logger -p "Logentries Agent Test Event 4" >> /var/log/system.log
+logger -p "Logentries Agent Test Event 5" >> /var/log/system.log
+logger -p "Logentries Agent Test Event 6" >> /var/log/system.log
+logger -p "Logentries Agent Test Event 7" >> /var/log/system.log
+logger -p "Logentries Agent Test Event 8" >> /var/log/system.log
 
 printf "Restarting the Logentries service"
 sudo service logentries restart
